@@ -11,9 +11,9 @@ import './App.css';
 function App() {
 
   const [toDo, setTodo] = useState(dataTask)
-
   const [newTask, setNewTask] = useState('')
   const [updateData, setUpdateData] = useState('')
+  const [filterSearch, setFilterSearch] = useState('')
 
 
   const addTask = () => {
@@ -40,6 +40,31 @@ function App() {
       return dataTask
     })
     setTodo(newTask)
+  }
+
+  const filterDone = () => {
+    const data = dataTask.filter((toDo) => {
+      return toDo.complete === true
+    })
+    setTodo(data)
+  }
+
+  const filterTodo = () => {
+    const data = dataTask.filter((toDo) => {
+      return toDo.complete === false
+    })
+    setTodo(data)
+  }
+
+  const searchFilter = () => {
+    const data = dataTask.filter((toDo) => {
+      if(filterSearch === "") {
+        return toDo
+      } else if (toDo.task.toLocaleLowerCase().includes(filterSearch.toLocaleLowerCase())) {
+        return toDo
+      }
+    })
+    setTodo(data)
   }
 
   const cancelUpdate = () => {
@@ -70,6 +95,23 @@ function App() {
       <h2>Todo Input</h2>
       <br></br>
 
+      <div className='row'>
+        <div className='col'>
+          <input 
+          placeholder='Search Todo. . .'
+          onChange={ (e) => setFilterSearch(e.target.value)}
+          className='form-control form-control-lg'></input>
+        </div>
+
+        <div className='col-auto'>
+          <button 
+          onClick={searchFilter}
+          className='btn btn-info btn-lg'>Search</button>
+        </div>
+      </div>
+
+      <br></br>
+
       {updateData && updateData ? (
         <>
           <div className='row'>
@@ -96,6 +138,7 @@ function App() {
           <div className='row'>
             <div className='col'>
               <input
+              placeholder='Input/Edit todo'
               value={newTask}
               onChange={ (e) => setNewTask(e.target.value)} 
               className='form-control form-control-lg'></input>
@@ -118,17 +161,23 @@ function App() {
       {/* Filter Button */}
       <div className='row'>
         <div className='col'>
-          <button type='button'
+          <button 
+          type='button'
+          onClick={ () => setTodo(dataTask)}
           className='btn btn-info btn-block '>All</button>
         </div>
 
         <div className='col'>
-          <button type='button'
+          <button 
+          type='button'
+          onClick={filterDone}
           className='btn btn-info btn-block '>Done</button>
         </div>
 
         <div className='col'>
           <button
+          type='button'
+          onClick={filterTodo}
           className='btn btn-info btn-block'
           >
             Todo</button>
