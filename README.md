@@ -1,3 +1,9 @@
+# Todo List Kentang
+
+a todo list project that is still a potato with styling and has not added routing.
+-gihonhon
+
+
 # Getting Started with Create React App
 
 ## Available Scripts
